@@ -278,7 +278,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="viewcourse.php" class="nav-link">
+                <a href="data.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Course</p>
                 </a>

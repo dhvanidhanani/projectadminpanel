@@ -11,8 +11,6 @@
       $result1 = mysqli_query($con,$qry1);
       $row1 = mysqli_fetch_assoc($result1); 
   }
-    $qry1 = "SELECT * from `course` where `status`=0";
-    $result1 = mysqli_query($con,$qry1);
 
     if(isset($_GET['delete']))
     {
@@ -20,37 +18,33 @@
         $qry2 = "UPDATE `course` set `status`=1 where `id`='$id'";
         $result2 = mysqli_query($con,$qry2);
     }
-   
+
     if(isset($_POST['search_btn']))
     {
         $search = $_POST['search'];
-        $qry3 = "SELECT * from `course` where `name` like '%$search%'";
-        $result1 = mysqli_query($con,$qry3);
-    }
-    elseif(isset($_POST['back_btn']))
-    {
-        $qry4 = "SELECT * from `course`";
-        $result1 = mysqli_query($con,$qry4);
+        $qry1 = "SELECT * from `course` where `name` like '%$search%'";
     }
     else
     {
-        $qry5 = "SELECT * from `course`";
-        $result1 = mysqli_query($con,$qry5);
-        // $result = $result1;
+        $qry1 = "SELECT * from `course` where `status`=0";
     }
-
+    $result1 = mysqli_query($con,$qry1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Form</title>
+  <title>DataTables</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -65,7 +59,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -276,7 +270,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="viewcourse.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Course</p>
                 </a>
@@ -890,25 +884,28 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
+            <h1>DataTables</h1>
+          </div>
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">View Form</li>
+              <li class="breadcrumb-item active">DataTables</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-    <section class="content-header">
+
+    <!-- Main content -->
+    <section class="content">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-          <form action="" method="post">
-            <input type="text" name="search">
-            <input type="submit" name ="search_btn" value="Search">
-            <input type="submit" name ="back_btn" value="Back">
-            </form>
-            <table border=2>
-                <tr>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example2" class="table table-bordered table-hover">
+                  <tr>
                     <td>Id</td>
                     <td>Name</td>
                     <td>Image</td>
@@ -916,50 +913,85 @@
                     <td>Title</td>
                     <td>Delete</td>
                     <td>Update</td>
-                </tr>
-                <?php
-                    while($fetch = mysqli_fetch_assoc($result1))
-                    {
-                ?>
-                <tr>
-                    <td><?php echo $fetch['id'] ?></td>
-                    <td><?php echo $fetch['name'] ?></td>
-                    <td>
-                        <img src="image/<?php echo $fetch['image']?>" alt="" width="100px" height="100px">
-                    </td>
-                    <td><?php echo $fetch['link'] ?></td>
-                    <td><?php echo $fetch['title'] ?></td>
-                    <td align=center><a href="viewcourse.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
-                    <td align=center><a href="general.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                </tr>
-                <?php
-                    }
-                ?>
-            </table>
+                  </tr>
+                    
+                    <?php
+                      while($fetch = mysqli_fetch_assoc($result1))
+                      {
+                    ?>
+                    <tr>
+                      <td><?php echo $fetch['id'] ?></td>
+                      <td><?php echo $fetch['name'] ?></td>
+                      <td>
+                          <img src="image/<?php echo $fetch['image']?>" alt="" width="100px" height="100px">
+                      </td>
+                      <td><?php echo $fetch['link'] ?></td>
+                      <td><?php echo $fetch['title'] ?></td>
+                      <td align=center><a href="data.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
+                      <td align=center><a href="general.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                      </tr>
+                    <?php
+                      }
+                    ?>
+                   
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
           </div>
+          <!-- /.col -->
         </div>
-      </div><!-- /.container-fluid -->
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
+    <!-- /.content -->
   </div>
   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
   </aside>
+  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- bs-custom-file-input -->
-<script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="plugins/jszip/jszip.min.js"></script>
+<script src="plugins/pdfmake/pdfmake.min.js"></script>
+<script src="plugins/pdfmake/vfs_fonts.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-$(function () {
-  bsCustomFileInput.init();
-});
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
 </script>
 </body>
 </html>
