@@ -11,13 +11,52 @@
       $result1 = mysqli_query($con,$qry1);
       $row1 = mysqli_fetch_assoc($result1); 
   }
+  if(isset($_GET['update']))
+  {
+      $id = $_GET['update'];
+      $qry = "SELECT * FROM `course` WHERE `id`='$id'";
+      $res = mysqli_query($con , $qry);
+      $row = mysqli_fetch_assoc($res);
+  
+      $name = $row['name'];
+      $image = $row['image'];
+      $link = $row['link'];
+      $title = $row['title'];
+  }
+  if(isset($_POST['submit']))
+    {
+        $name = $_POST['name'];
+        if($_FILES['image']['name']!= '')
+        {
+            $image = $_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'],"image/".$image);
+        }
+        else
+        {
+            $image = $_POST['last_image'];
+        }
+        $link = $_POST['link'];
+        $title = $_POST['title'];
+
+        if(@$_GET['update'])
+        {
+            $qry = "UPDATE `course` set `name`='$name',`image`='$image',`link`='$link',`title`='$title' where `id`='$id'";
+            $result = mysqli_query($con,$qry);
+        }
+        else
+        {
+            $qry = "INSERT INTO `course`(`name`,`image`,`link`,`title`) values ('$name','$image','$link','$title')";
+            $result = mysqli_query($con,$qry);
+        }
+    }
+   
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | General Form Elements</title>
+  <title>Form</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -242,21 +281,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="general.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Select Course</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
+                <a href="viewcourse.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Course</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p></p>
                 </a>
               </li>
             </ul>
@@ -868,11 +901,8 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>General Form</h1>
-          </div>
-          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
               <li class="breadcrumb-item active">General Form</li>
             </ol>
           </div>
@@ -893,27 +923,32 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form>
+              <form method="post" enctype="multipart/form-data">
+              <input type="hidden" name="last_image" value="<?php echo isset($image)? $image : '';?>">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                  </div>
-                  <div class="form-group">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" class="form-control" id="" placeholder="Enter name" name="name" value="<?php echo isset($name) ? $name : ''; ?>">
+                </div>
+                <div class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image" value="<?php echo isset($image) ? $image : ''; ?>">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                       <div class="input-group-append">
                         <span class="input-group-text">Upload</span>
                       </div>
                     </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Link</label>
+                    <input type="" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name ="link" value="<?php echo isset($link) ? $link : ''; ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter title" name ="title" value="<?php echo isset($title) ? $title : ''; ?>">
                   </div>
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -923,7 +958,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary" name ="submit">Submit</button>
                 </div>
               </form>
             </div>
