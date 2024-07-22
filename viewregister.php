@@ -15,18 +15,18 @@
     if(isset($_GET['delete']))
     {
         $id = $_GET['delete'];
-        $qry2 = "UPDATE `course` set `status`=1 where `id`='$id'";
+        $qry2 = "UPDATE `register` set `status`=1 where `id`='$id'";
         $result2 = mysqli_query($con,$qry2);
     }
 
     if(isset($_POST['search_btn']))
     {
         $search = $_POST['search'];
-        $qry1 = "SELECT * from `course` where `name` like '%$search%'";
+        $qry1 = "SELECT * from `register` where `name` like '%$search%'";
     }
     else
     {
-        $qry1 = "SELECT * from `course` where `status`=0";
+        $qry1 = "SELECT * from `register` where `status`=0";
     }
     $result1 = mysqli_query($con,$qry1);
 ?>
@@ -35,7 +35,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DataTables</title>
+  <title>UserTables</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -847,12 +847,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>User Table</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">DataTables</li>
+              <li class="breadcrumb-item active">User Register</li>
             </ol>
           </div>
         </div>
@@ -881,30 +881,28 @@
                 </div>  
               </form>
                 <table id="example2" class="table table-bordered table-hover">
-                  <tr>
+                  <tr align="center">
                     <td>Id</td>
                     <td>Name</td>
+                    <td>Email</td>
+                    <td>Password</td>
                     <td>Image</td>
-                    <td>Link</td>
-                    <td>Title</td>
                     <td>Delete</td>
-                    <td>Update</td>
                   </tr>
                     
                     <?php
                       while($fetch = mysqli_fetch_assoc($result1))
                       {
                     ?>
-                    <tr>
+                    <tr align="center">
                       <td><?php echo $fetch['id'] ?></td>
                       <td><?php echo $fetch['name'] ?></td>
+                      <td><?php echo $fetch['email'] ?></td>
+                      <td><?php echo $fetch['password'] ?></td>
                       <td>
-                          <img src="image/<?php echo $fetch['image']?>" alt="" width="100px" height="100px">
+                          <img src="image/<?php echo $fetch['profile']?>" alt="" width="100px" height="100px">
                       </td>
-                      <td><?php echo $fetch['link'] ?></td>
-                      <td><?php echo $fetch['title'] ?></td>
-                      <td align=center><a href="data.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
-                      <td align=center><a href="general.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                      <td><a href="viewregister.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
                       </tr>
                     <?php
                       }
