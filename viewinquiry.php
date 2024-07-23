@@ -11,58 +11,40 @@
       $result1 = mysqli_query($con,$qry1);
       $row1 = mysqli_fetch_assoc($result1); 
   }
-  if(isset($_GET['update']))
-  {
-      $id = $_GET['update'];
-      $qry = "SELECT * FROM `sub_course` WHERE `id`='$id'";
-      $res = mysqli_query($con , $qry);
-      $row = mysqli_fetch_assoc($res);
-  
-      $name = $row['name'];
-      $title = $row['title'];
-      $image = $row['image'];
-      $link = $row['link'];
-      $subtitle = $row['sub_title'];
-  }
-  if(isset($_POST['submit']))
-    {
-        $name = $_POST['name'];
-        $title = $_POST['title'];
-        if($_FILES['image']['name']!= '')
-        {
-            $image = $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'],"image/".$image);
-        }
-        else
-        {
-            $image = $_POST['last_image'];
-        }
-        $link = $_POST['link'];
-        $subtitle = $_POST['sub_title'];
 
-        if(@$_GET['update'])
-        {
-            $qry = "UPDATE `sub_course` set `name`='$name',`title`='$title',`image`='$image',`link`='$link',`sub_title`='$subtitle' where `id`='$id'";
-            $result = mysqli_query($con,$qry);
-        }
-        else
-        {
-            $qry = "INSERT INTO `sub_course`(`name`,`title`,`image`,`link`,`sub_title`) values ('$name','$title','$image','$link','$subtitle')";
-            $result = mysqli_query($con,$qry);
-        }
+    if(isset($_GET['delete']))
+    {
+        $id = $_GET['delete'];
+        $qry2 = "UPDATE `inquiry` set `status_id`=1 where `id`='$id'";
+        $result2 = mysqli_query($con,$qry2);
     }
+
+    if(isset($_POST['search_btn']))
+    {
+        $search = $_POST['search'];
+        $qry1 = "SELECT * from `inquiry` where `name` like '%$search%'";
+    }
+    else
+    {
+        $qry1 = "SELECT * from `inquiry` where `status_id`=0";
+    }
+    $result1 = mysqli_query($con,$qry1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Form</title>
+  <title>DataTables</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -77,10 +59,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="index.php" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -288,7 +267,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="data.php" class="nav-link">
+                <a href="viewcourse.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Course</p>
                 </a>
@@ -313,7 +292,7 @@
               <li class="nav-item">
                 <a href="view.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>View Course</p>
+                  <p>View sub Course</p>
                 </a>
               </li>
             </ul>
@@ -865,9 +844,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
+            <h1>View Course</h1>
+          </div>
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">Sub Course </li>
+              <li class="breadcrumb-item active">View Course</li>
             </ol>
           </div>
         </div>
@@ -878,97 +860,131 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
-          <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Quick Example</h3>
-              </div>
+          <div class="col-12">
+            <div class="card">
               <!-- /.card-header -->
-              <!-- form start -->
-              <form method="post" enctype="multipart/form-data">
-              <input type="hidden" name="last_image" value="<?php echo isset($image)? $image : '';?>">
-                <div class="card-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter name" name ="name" value="<?php echo isset($name) ? $name : ''; ?>">
-                  </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                     <select name="title" id="">
-                       <option value="">Select option</option>
-                      <?php
-                        $q = "SELECT * from `course`";
-                        $result = mysqli_query($con,$q);
-                        while($fetch=mysqli_fetch_assoc($result))
-                        {
-                      ?>
-                      <option value="<?php echo $fetch['name'] ?>"<?php echo (@$title == $fetch['name']) ? "selected" : ""?>><?php echo $fetch['name'] ?></option>
-                      <?php
-                        }
-                      ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image" value="<?php echo isset($image) ? $image : ''; ?>">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
+              <div class="card-body">
+              <form action="" method="post">
+              <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" name="search_btn" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Link</label>
-                    <input type="" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name ="link" value="<?php echo isset($link) ? $link : ''; ?>">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Sub Title</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter title" name ="sub_title" value="<?php echo isset($subtitle) ? $subtitle : ''; ?>">
-                  </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label> 
-                  </div>
-                </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary" name ="submit">Submit</button>
-                </div>
+                </div>  
               </form>
+                <table id="example2" class="table table-bordered table-hover">
+                  <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Course</td>
+                    <td>Reference Name</td>
+                    <td>Add</td>
+                    <td>Status</td>
+                    <td>Contact</td>
+                    <td>Reference</td>
+                    <td>Date</td>
+                    <td>FollowUp</td>
+                    <td>Parent Contact</td>
+                    <td>Fees</td>
+                    <td>Enquiry</td>
+                    <td>Betch Time</td>
+                    <td>Inquiry</td>
+                    <td>Delete</td>
+                    <td>Update</td>
+                  </tr>
+                    
+                    <?php
+                      while($fetch = mysqli_fetch_assoc($result1))
+                      {
+                    ?>
+                    <tr>
+                      <td><?php echo $fetch['id'] ?></td>
+                      <td><?php echo $fetch['name'] ?></td>
+                      <td><?php echo $fetch['course'] ?></td>
+                      <td><?php echo $fetch['referencename'] ?></td>
+                      <td><?php echo $fetch['add'] ?></td>
+                      <td><?php echo $fetch['status'] ?></td>
+                      <td><?php echo $fetch['contact'] ?></td>
+                      <td><?php echo $fetch['content'] ?></td>
+                      <td><?php echo $fetch['reference'] ?></td>
+                      <td><?php echo $fetch['date'] ?></td>
+                      <td><?php echo $fetch['followup'] ?></td>
+                      <td><?php echo $fetch['parent'] ?></td>
+                      <td><?php echo $fetch['fees'] ?></td>
+                      <td><?php echo $fetch['enquiry'] ?></td>
+                      <td><?php echo $fetch['batchtime'] ?></td>
+                      <td><?php echo $fetch['inquirydetails'] ?></td>
+                      
+                      <td align=center><a href="viewinquiry.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
+                      <td align=center><a href="inquiry.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                      </tr>
+                    <?php
+                      }
+                    ?>
+                   
+                </table>
+              </div>
+              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
+          <!-- /.col -->
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
   </aside>
+  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- bs-custom-file-input -->
-<script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="plugins/jszip/jszip.min.js"></script>
+<script src="plugins/pdfmake/pdfmake.min.js"></script>
+<script src="plugins/pdfmake/vfs_fonts.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-$(function () {
-  bsCustomFileInput.init();
-});
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
 </script>
 </body>
 </html>

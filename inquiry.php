@@ -13,51 +13,65 @@
   }
   if(isset($_GET['update']))
   {
-      $id = $_GET['update'];
-      $qry = "SELECT * FROM `sub_course` WHERE `id`='$id'";
+      $id = $_GET['update'];  
+      $qry = "SELECT * FROM `inquiry` WHERE `id`='$id'";
       $res = mysqli_query($con , $qry);
       $row = mysqli_fetch_assoc($res);
   
       $name = $row['name'];
-      $title = $row['title'];
-      $image = $row['image'];
-      $link = $row['link'];
-      $subtitle = $row['sub_title'];
+      $course = $row['course'];
+      $reference = $row['reference'];
+      $add = $row['added'];
+      $status = $row['status'];
+      $contact = $row['contact'];
+      $coursecontent = $row['coursedetalis'];
+      $referencename = $row['referencename'];
+      $date = $row['date'];
+      $followup = $row['followupdetails'];
+      $parentcontact = $row['parentcontact'];
+      $coursefees = $row['coursefees'];
+      $enquiry = $row['enquiry'];
+      $betnchtime = $row['batchtime'];
+      $inquirydetails = $row['inquirydetails'];
   }
-  if(isset($_POST['submit']))
-    {
-        $name = $_POST['name'];
-        $title = $_POST['title'];
-        if($_FILES['image']['name']!= '')
-        {
-            $image = $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'],"image/".$image);
-        }
-        else
-        {
-            $image = $_POST['last_image'];
-        }
-        $link = $_POST['link'];
-        $subtitle = $_POST['sub_title'];
 
-        if(@$_GET['update'])
-        {
-            $qry = "UPDATE `sub_course` set `name`='$name',`title`='$title',`image`='$image',`link`='$link',`sub_title`='$subtitle' where `id`='$id'";
-            $result = mysqli_query($con,$qry);
-        }
-        else
-        {
-            $qry = "INSERT INTO `sub_course`(`name`,`title`,`image`,`link`,`sub_title`) values ('$name','$title','$image','$link','$subtitle')";
-            $result = mysqli_query($con,$qry);
-        }
-    }
-?>
+  if(isset($_POST['submit']))
+  {
+      $name = $_POST['name'];
+      $course = $_POST['course'];
+      $reference = $_POST['reference'];
+      $add = $_POST['added'];
+      $status = $_POST['status'];
+      $contact = $_POST['contact'];
+      $coursecontent = $_POST['coursedetalis'];
+      $referencename = $_POST['referencename'];
+      $date = $_POST['date'];
+      $followup = $_POST['followupdetails'];
+      $parentcontact = $_POST['parentcontact'];
+      $coursefees = $_POST['coursefees'];
+      $enquiry = $_POST['enquiry'];
+      $betnchtime = $_POST['batchtime'];
+      $inquirydetails = $_POST['inquirydetails'];
+  
+      if(@$_GET['update'])
+      {
+          $qry = "UPDATE `inquiry` set `name`='$name',`course`='$course',`referencename`='$reference',`add`='$add',`status`='$status',`contact`='$contact',`content`='$coursecontent',`reference`='$referencename',`date`='$date',`followeup`='$followup',`parent`='$parentcontact',`fees`='$coursefees',`enquiry`='$enquiry',`betchtime`='$betnchtime',`inquirydetails`='$inquirydetails' where `id`='$id'";
+          $result = mysqli_query($con,$qry);
+      }
+      else
+      {
+          $qry = "INSERT INTO `inquiry`(`name`,`course`,`referencename`,`add`,`status`,`contact`,`content`,`reference`,`date`,`followup`,`parent`,`fees`,`enquiry`,`betchtime`,`inquirydetails`) values ('$name','$course','$reference','$add','$status','$contact','$coursecontent','$referencename','$date','$followup','$parentcontact','$coursefees','$enquiry','$betnchtime','$inquirydetails')";
+          $result = mysqli_query($con,$qry);
+      }
+  }
+  ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Form</title>
+  <title>Inquiry</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -65,7 +79,6 @@
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -77,7 +90,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -203,11 +216,6 @@
           <i class="fas fa-th-large"></i>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-controlsidebar-slide="true" href="logout.php" role="button">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </a>
-      </li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -251,26 +259,6 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item menu">
             <a href="#" class="nav-link">
@@ -307,7 +295,7 @@
               <li class="nav-item">
                 <a href="sub.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Sub Course</p>
+                  <p>Select Course</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -322,33 +310,21 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
-                Charts
+                Inquiry
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="inquiry.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>Inquiry add</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
+                <a href="viewinquiry.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
+                  <p>View Inquiry</p>
                 </a>
               </li>
             </ul>
@@ -865,9 +841,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
+            <h1>Inquiry Form</h1>
+          </div>
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">Sub Course </li>
+              <li class="breadcrumb-item active">Inquiry Form</li>
             </ol>
           </div>
         </div>
@@ -883,66 +862,133 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Quick Example</h3>
+                <h3 class="card-title">Inquiry</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" enctype="multipart/form-data">
-              <input type="hidden" name="last_image" value="<?php echo isset($image)? $image : '';?>">
+              <form method="post">
                 <div class="card-body">
-                <div class="form-group">
+                  <div class="form-group">
                     <label for="exampleInputEmail1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter name" name ="name" value="<?php echo isset($name) ? $name : ''; ?>">
+                    <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter Name" value="<?php echo isset($name) ? $name : ''; ?>">
                   </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                     <select name="title" id="">
-                       <option value="">Select option</option>
-                      <?php
-                        $q = "SELECT * from `course`";
-                        $result = mysqli_query($con,$q);
-                        while($fetch=mysqli_fetch_assoc($result))
-                        {
-                      ?>
-                      <option value="<?php echo $fetch['name'] ?>"<?php echo (@$title == $fetch['name']) ? "selected" : ""?>><?php echo $fetch['name'] ?></option>
-                      <?php
-                        }
-                      ?>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Select Course</label>
+                    <input type="text" name="course" class="form-control" id="exampleInputPassword1" placeholder="Enter Course" value="<?php echo isset($course) ? $course : ''; ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Reference</label>
+                    <select name="reference" id="" class="form-control" id="exampleInputPassword1">
+                      <option value="" hidden>Select Option</option>
+                      <option value="<?php echo($reference == 'Google')? 'selected':''; ?>">Google</option>
+                      <option value="<?php echo($reference == 'Facalty')? 'selected':''; ?>">Facalty</option>
+                      <option value="<?php echo($reference == 'Student')? 'selected':''; ?>">Student</option>
                     </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Added By</label>
+                    <select name="added" id="" class="form-control" id="exampleInputPassword1">
+                      <option value="" hidden>Select Option</option>
+                      <option value="<?php echo($added == 'Harita')? 'selected':''; ?>">Harita Mem</option>
+                      <option value="<?php echo($added == 'Khushi')? 'selected':''; ?>">Khushi Mem</option>
+                      <option value="<?php echo($added == 'Shivangi')? 'selected':''; ?>">Shivangi Mem</option>
+                      <option value="<?php echo($added == 'Krinal')? 'selected':''; ?>">Krinal Mem</option>
+                      <option value="<?php echo($added == 'Shruti')? 'selected':''; ?>">Shruti Mem</option>
+                      <option value="<?php echo($added == 'Haresh')? 'selected':''; ?>">Haresh Sir</option>
+                      <option value="<?php echo($added == 'Prince')? 'selected':''; ?>">Prince Sir</option>
+                      <option value="<?php echo($added == 'Anil')? 'selected':''; ?>">Anil Sir</option>
+                      <option value="<?php echo($added == 'Utsav')? 'selected':''; ?>">Utsav Sir</option>
+                      <option value="<?php echo($added == 'Bhavtik')? 'selected':''; ?>">Bhavtik Sir</option>
+                      <option value="<?php echo($added == 'Vishal')? 'selected':''; ?>">Vishal Sir</option>
+                      <option value="<?php echo($added == 'Gautam')? 'selected':''; ?>">Gautam Sir</option>
+                      <option value="<?php echo($added == 'Shailesh')? 'selected':''; ?>">Shailesh Sir</option>
+                      <option value="<?php echo($added == 'Jatin')? 'selected':''; ?>">Jatin Sir</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Status</label>
+                    <select name="status" id="" class="form-control" id="exampleInputPassword1">
+                      <option value="" hidden>Select Option</option>
+                      <option value="<?php echo($status == 'Pending')? 'selected':''; ?>">Pending</option>
+                      <option value="<?php echo($status == 'Demo')? 'selected':''; ?>">Demo</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image" value="<?php echo isset($image) ? $image : ''; ?>">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div>
-                    </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Contact Number</label>
+                    <input type="text" name="contact" class="form-control" id="exampleInputEmail1" placeholder="Enter Contact Number" value="<?php echo isset($contact) ? $contact : ''; ?>">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Link</label>
-                    <input type="" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name ="link" value="<?php echo isset($link) ? $link : ''; ?>">
+                    <label for="exampleInputPassword1">Course Content</label>
+                    <input type="text" name="coursedetalis" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Content" value="<?php echo isset($coursecontent) ? $coursecontent : ''; ?>">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Sub Title</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter title" name ="sub_title" value="<?php echo isset($subtitle) ? $subtitle : ''; ?>">
+                    <label for="exampleInputPassword1">Reference Name</label>
+                    <input type="text" name="referencename" class="form-control" id="exampleInputPassword1" placeholder="Enter Reference Name" value="<?php echo isset($referencename) ? $referencename : ''; ?>">
                   </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label> 
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Expected Join Date</label>
+                    <input type="date" name="date" class="form-control" id="exampleInputPassword1" placeholder="date" value="<?php echo isset($date) ? $date : ''; ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">FollowUp Details</label>
+                    <textarea name="followupdetails" class="form-control" id="exampleInputPassword1" placeholder="Enter FollowUp Details" value="<?php echo isset($followup) ? $followup : ''; ?>"></textarea>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Parent Contact</label>
+                    <input type="text" name="parentcontact" class="form-control" id="exampleInputEmail1" placeholder="Enter Parent Contact" value="<?php echo isset($parentcontact) ? $parentcontact : ''; ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Course Fees</label>
+                    <input type="text" name="coursefees" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Fees" value="<?php echo isset($coursefees) ? $coursefees : ''; ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Enquiry By</label>
+                    <select name="enquiry" id="" class="form-control" id="exampleInputPassword1">
+                      <option value="" hidden>Select Option</option>
+                      <option value="<?php echo($enquiry == 'Harita')? 'selected':''; ?>">Harita Mem</option>
+                      <option value="<?php echo($enquiry == 'Khushi')? 'selected':''; ?>">Khushi Mem</option>
+                      <option value="<?php echo($enquiry == 'Shivangi')? 'selected':''; ?>">Shivangi Mem</option>
+                      <option value="<?php echo($enquiry == 'Krinal')? 'selected':''; ?>">Krinal Mem</option>
+                      <option value="<?php echo($enquiry == 'Shruti')? 'selected':''; ?>">Shruti Mem</option>
+                      <option value="<?php echo($enquiry == 'Haresh')? 'selected':''; ?>">Haresh Sir</option>
+                      <option value="<?php echo($enquiry == 'Prince')? 'selected':''; ?>">Prince Sir</option>
+                      <option value="<?php echo($enquiry == 'Anil')? 'selected':''; ?>">Anil Sir</option>
+                      <option value="<?php echo($enquiry == 'Utsav')? 'selected':''; ?>">Utsav Sir</option>
+                      <option value="<?php echo($enquiry == 'Bhavtik')? 'selected':''; ?>">Bhavtik Sir</option>
+                      <option value="<?php echo($enquiry == 'Vishal')? 'selected':''; ?>">Vishal Sir</option>
+                      <option value="<?php echo($enquiry == 'Gautam')? 'selected':''; ?>">Gautam Sir</option>
+                      <option value="<?php echo($enquiry == 'Shailesh')? 'selected':''; ?>">Shailesh Sir</option>
+                      <option value="<?php echo($enquiry == 'Jatin')? 'selected':''; ?>">Jatin Sir</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Batch Time</label>
+                    <select name="batchtime" id="" class="form-control" id="exampleInputPassword1">
+                      <option value="" hidden>Select Option</option>
+                      <option value="<?php echo($batchtime == '8am-10am')? 'selected':''; ?>">8am-10am</option>
+                      <option value="<?php echo($batchtime == '10am-12pm')? 'selected':''; ?>">10am-12pm</option>
+                      <option value="<?php echo($batchtime == '12pm-2pm')? 'selected':''; ?>">12pm-2pm</option>
+                      <option value="<?php echo($batchtime == '2pm-4pm')? 'selected':''; ?>">2pm-4pm</option>
+                      <option value="<?php echo($batchtime == '4pm-6pm')? 'selected':''; ?>">4pm-6pm</option>
+                      <option value="<?php echo($batchtime == '6pm-8pm')? 'selected':''; ?>">6pm-8pm</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Inquiry Details</label>
+                    <textarea name="inquirydetails" id=""  class="form-control" id="exampleInputPassword1" placeholder="Enter Inquiry Details" value="<?php echo isset($inquirydetails) ? $inquirydetails : ''; ?>"></textarea>
                   </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary" name ="submit">Submit</button>
+                  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form>
             </div>
-            <!-- /.card -->
           </div>
         </div>
         <!-- /.row -->
@@ -951,9 +997,12 @@
     <!-- /.content -->
   </div>
   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
   </aside>
+  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
