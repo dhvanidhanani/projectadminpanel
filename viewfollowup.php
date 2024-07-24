@@ -14,19 +14,19 @@
 
     if(isset($_GET['delete']))
     {
-        $id = $_GET['delete'];
-        $qry2 = "UPDATE `course` set `status`=1 where `id`='$id'";
+        $id1 = $_GET['delete'];
+        $qry2 = "UPDATE `followup` set `status`=1 where `id`='$id1'";
         $result2 = mysqli_query($con,$qry2);
     }
 
     if(isset($_POST['search_btn']))
     {
         $search = $_POST['search'];
-        $qry1 = "SELECT * from `course` where `name` like '%$search%'";
+        $qry1 = "SELECT * from `followup` where `name` like '%$search%'";
     }
     else
     {
-        $qry1 = "SELECT * from `course` where `status`=0";
+        $qry1 = "SELECT * from `followup` where `status`=0";
     }
     $result1 = mysqli_query($con,$qry1);
 ?>
@@ -60,9 +60,6 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="index.php" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
       </li>
     </ul>
 
@@ -357,12 +354,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>View Course</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">DataTables</li>
+              <li class="breadcrumb-item active">View Course</li>
             </ol>
           </div>
         </div>
@@ -394,9 +391,12 @@
                   <tr>
                     <td>Id</td>
                     <td>Name</td>
-                    <td>Image</td>
-                    <td>Link</td>
-                    <td>Title</td>
+                    <td>Contact</td>
+                    <td>Course</td>
+                    <td>inquiry</td>
+                    <td>Reson</td>
+                    <td>Date</td>
+                    <td>Followup By</td>
                     <td>Delete</td>
                     <td>Update</td>
                   </tr>
@@ -408,13 +408,16 @@
                     <tr>
                       <td><?php echo $fetch['id'] ?></td>
                       <td><?php echo $fetch['name'] ?></td>
-                      <td>
-                          <img src="image/<?php echo $fetch['image']?>" alt="" width="100px" height="100px">
-                      </td>
-                      <td><?php echo $fetch['link'] ?></td>
-                      <td><?php echo $fetch['title'] ?></td>
-                      <td align=center><a href="data.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
-                      <td align=center><a href="general.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                      <td><?php echo $fetch['contact'] ?></td>
+                      <td><?php echo $fetch['course'] ?></td>
+                      <td><?php echo $fetch['inquiry'] ?></td>
+                      <td><?php echo $fetch['reson'] ?></td>
+                      <td><?php echo $fetch['date'] ?></td>
+                      <td><?php echo $fetch['followupby'] ?></td>
+                        
+                      
+                      <td align=center><a href="viewfollowup.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
+                      <td align=center><a href="followup.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
                       </tr>
                     <?php
                       }

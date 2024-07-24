@@ -11,27 +11,27 @@
       $result1 = mysqli_query($con,$qry1);
       $row1 = mysqli_fetch_assoc($result1); 
   }
+  
   if(isset($_GET['update']))
   {
       $id = $_GET['update'];  
       $qry = "SELECT * FROM `inquiry` WHERE `id`='$id'";
       $res = mysqli_query($con , $qry);
       $row = mysqli_fetch_assoc($res);
-  
       $name = $row['name'];
       $course = $row['course'];
       $reference = $row['reference'];
-      $add = $row['added'];
+      $add = $row['add'];
       $status = $row['status'];
       $contact = $row['contact'];
-      $coursecontent = $row['coursedetalis'];
+      $coursecontent = $row['content'];
       $referencename = $row['referencename'];
       $date = $row['date'];
-      $followup = $row['followupdetails'];
-      $parentcontact = $row['parentcontact'];
-      $coursefees = $row['coursefees'];
+      $followup = $row['followup'];
+      $parent = $row['parent'];
+      $fees = $row['fees'];
       $enquiry = $row['enquiry'];
-      $betnchtime = $row['batchtime'];
+      $betnchtime = $row['betchtime'];
       $inquirydetails = $row['inquirydetails'];
   }
 
@@ -40,27 +40,27 @@
       $name = $_POST['name'];
       $course = $_POST['course'];
       $reference = $_POST['reference'];
-      $add = $_POST['added'];
+      $add = $_POST['add'];
       $status = $_POST['status'];
       $contact = $_POST['contact'];
-      $coursecontent = $_POST['coursedetalis'];
+      $coursecontent = $_POST['content'];
       $referencename = $_POST['referencename'];
       $date = $_POST['date'];
-      $followup = $_POST['followupdetails'];
-      $parentcontact = $_POST['parentcontact'];
-      $coursefees = $_POST['coursefees'];
+      $followup = $_POST['followup'];
+      $parent = $_POST['parent'];
+      $fees = $_POST['fees'];
       $enquiry = $_POST['enquiry'];
-      $betnchtime = $_POST['batchtime'];
+      $betnchtime = $_POST['betchtime'];
       $inquirydetails = $_POST['inquirydetails'];
   
       if(@$_GET['update'])
       {
-          $qry = "UPDATE `inquiry` set `name`='$name',`course`='$course',`referencename`='$reference',`add`='$add',`status`='$status',`contact`='$contact',`content`='$coursecontent',`reference`='$referencename',`date`='$date',`followeup`='$followup',`parent`='$parentcontact',`fees`='$coursefees',`enquiry`='$enquiry',`betchtime`='$betnchtime',`inquirydetails`='$inquirydetails' where `id`='$id'";
+          $qry = "UPDATE `inquiry` set `name`='$name',`course`='$course',`referencename`='$reference',`add`='$add',`status`='$status',`contact`='$contact',`content`='$coursecontent',`reference`='$referencename',`date`='$date',`followup`='$followup',`parent`='$parent',`fees`='$fees',`enquiry`='$enquiry',`betchtime`='$betnchtime',`inquirydetails`='$inquirydetails' where `id`='$id'";
           $result = mysqli_query($con,$qry);
       }
       else
       {
-          $qry = "INSERT INTO `inquiry`(`name`,`course`,`referencename`,`add`,`status`,`contact`,`content`,`reference`,`date`,`followup`,`parent`,`fees`,`enquiry`,`betchtime`,`inquirydetails`) values ('$name','$course','$reference','$add','$status','$contact','$coursecontent','$referencename','$date','$followup','$parentcontact','$coursefees','$enquiry','$betnchtime','$inquirydetails')";
+          $qry = "INSERT INTO `inquiry`(`name`,`course`,`referencename`,`add`,`status`,`contact`,`content`,`reference`,`date`,`followup`,`parent`,`fees`,`enquiry`,`betchtime`,`inquirydetails`) values ('$name','$course','$reference','$add','$status','$contact','$coursecontent','$referencename','$date','$followup','$parent','$fees','$enquiry','$betnchtime','$inquirydetails')";
           $result = mysqli_query($con,$qry);
       }
   }
@@ -276,7 +276,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="data.php" class="nav-link">
+                <a href="viewcourse.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Course</p>
                 </a>
@@ -333,57 +333,15 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
               <p>
-                UI Elements
+                FollowUp
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
+                <a href="viewfollowup.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/icons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/buttons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buttons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/sliders.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sliders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/modals.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modals & Alerts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/navbar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Navbar & Tabs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/timeline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/ribbons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
+                  <p>View FollowUp</p>
                 </a>
               </li>
             </ul>
@@ -392,440 +350,24 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                Forms
+                Admission Form
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+                <a href="admission.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
+                  <p>Admission Add</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/forms/advanced.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
+                  <p>View Admission</p>
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Tables
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-header">EXAMPLES</li>
-          <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                Calendar
-                <span class="badge badge-info right">2</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/gallery.html" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Gallery
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/kanban.html" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Kanban Board
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Mailbox
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inbox</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Compose</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/read-mail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Read</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Pages
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Invoice</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/e-commerce.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>E-commerce</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/contacts.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/faq.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/contact-us.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact us</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
-              <p>
-                Extras
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register v1
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="pages/examples/login.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/register.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/forgot-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/recover-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v1</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register v2
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="pages/examples/login-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/register-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/forgot-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/recover-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v2</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/lockscreen.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lockscreen</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/legacy-user-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Legacy User Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/language-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Language Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/404.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 404</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/500.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 500</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/pace.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Pace</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/blank.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Blank Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="starter.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Starter Page</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-search"></i>
-              <p>
-                Search
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/search/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Search</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/search/enhanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enhanced</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-header">MISCELLANEOUS</li>
-          <li class="nav-item">
-            <a href="iframe.html" class="nav-link">
-              <i class="nav-icon fas fa-ellipsis-h"></i>
-              <p>Tabbed IFrame Plugin</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.1/" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Documentation</p>
-            </a>
-          </li>
-          <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                Level 1
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-header">LABELS</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Important</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Warning</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p>Informational</p>
-            </a>
           </li>
         </ul>
       </nav>
@@ -879,38 +421,38 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">Reference</label>
                     <select name="reference" id="" class="form-control" id="exampleInputPassword1">
-                      <option value="" hidden>Select Option</option>
-                      <option value="<?php echo($reference == 'Google')? 'selected':''; ?>">Google</option>
-                      <option value="<?php echo($reference == 'Facalty')? 'selected':''; ?>">Facalty</option>
-                      <option value="<?php echo($reference == 'Student')? 'selected':''; ?>">Student</option>
+                      <option  hidden>Select Option</option>
+                      <option <?php echo(@$reference == 'Google') ? 'selected':''; ?>>Google</option>
+                      <option <?php echo(@$reference == 'Facalty') ? 'selected':''; ?>>Facalty</option>
+                      <option <?php echo(@$reference == 'Student') ? 'selected':''; ?>>Student</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Added By</label>
-                    <select name="added" id="" class="form-control" id="exampleInputPassword1">
-                      <option value="" hidden>Select Option</option>
-                      <option value="<?php echo($added == 'Harita')? 'selected':''; ?>">Harita Mem</option>
-                      <option value="<?php echo($added == 'Khushi')? 'selected':''; ?>">Khushi Mem</option>
-                      <option value="<?php echo($added == 'Shivangi')? 'selected':''; ?>">Shivangi Mem</option>
-                      <option value="<?php echo($added == 'Krinal')? 'selected':''; ?>">Krinal Mem</option>
-                      <option value="<?php echo($added == 'Shruti')? 'selected':''; ?>">Shruti Mem</option>
-                      <option value="<?php echo($added == 'Haresh')? 'selected':''; ?>">Haresh Sir</option>
-                      <option value="<?php echo($added == 'Prince')? 'selected':''; ?>">Prince Sir</option>
-                      <option value="<?php echo($added == 'Anil')? 'selected':''; ?>">Anil Sir</option>
-                      <option value="<?php echo($added == 'Utsav')? 'selected':''; ?>">Utsav Sir</option>
-                      <option value="<?php echo($added == 'Bhavtik')? 'selected':''; ?>">Bhavtik Sir</option>
-                      <option value="<?php echo($added == 'Vishal')? 'selected':''; ?>">Vishal Sir</option>
-                      <option value="<?php echo($added == 'Gautam')? 'selected':''; ?>">Gautam Sir</option>
-                      <option value="<?php echo($added == 'Shailesh')? 'selected':''; ?>">Shailesh Sir</option>
-                      <option value="<?php echo($added == 'Jatin')? 'selected':''; ?>">Jatin Sir</option>
+                    <label for="exampleInputPassword1">Add By</label>
+                    <select name="add" id="" class="form-control" id="exampleInputPassword1">
+                      <option hidden>Select Option</option>
+                      <option <?php echo(@$add == 'Harita Mem') ? 'selected':''; ?>>Harita Mem</option>
+                      <option <?php echo(@$add == 'Khushi Mem') ? 'selected':''; ?>>Khushi Mem</option>
+                      <option <?php echo(@$add == 'Shivangi Mem') ? 'selected':''; ?>>Shivangi Mem</option>
+                      <option <?php echo(@$add == 'Krinal Mem') ? 'selected':''; ?>>Krinal Mem</option>
+                      <option <?php echo(@$add == 'Shruti Mem') ? 'selected':''; ?>>Shruti Mem</option>
+                      <option <?php echo(@$add == 'Haresh Sir') ? 'selected':''; ?>>Haresh Sir</option>
+                      <option <?php echo(@$add == 'Prince Sir') ? 'selected':''; ?>>Prince Sir</option>
+                      <option <?php echo(@$add == 'Anil Sir') ? 'selected':''; ?>>Anil Sir</option>
+                      <option <?php echo(@$add == 'Utsav Sir') ? 'selected':''; ?>>Utsav Sir</option>
+                      <option <?php echo(@$add == 'Bhavtik Sir') ? 'selected':''; ?>>Bhavtik Sir</option>
+                      <option <?php echo(@$add == 'Vishal Sir') ? 'selected':''; ?>>Vishal Sir</option>
+                      <option <?php echo(@$add == 'Gautam Sir') ? 'selected':''; ?>>Gautam Sir</option>
+                      <option <?php echo(@$add == 'Shailesh Sir') ? 'selected':''; ?>>Shailesh Sir</option>
+                      <option <?php echo(@$add == 'Jatin Sir') ? 'selected':''; ?>>Jatin Sir</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Status</label>
                     <select name="status" id="" class="form-control" id="exampleInputPassword1">
-                      <option value="" hidden>Select Option</option>
-                      <option value="<?php echo($status == 'Pending')? 'selected':''; ?>">Pending</option>
-                      <option value="<?php echo($status == 'Demo')? 'selected':''; ?>">Demo</option>
+                      <option hidden>Select Option</option>
+                      <option <?php echo(@$status == 'Pending') ? 'selected':''; ?>>Pending</option>
+                      <option <?php echo(@$status == 'Demo') ? 'selected':''; ?>>Demo</option>
                     </select>
                   </div>
                 </div>
@@ -921,7 +463,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Course Content</label>
-                    <input type="text" name="coursedetalis" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Content" value="<?php echo isset($coursecontent) ? $coursecontent : ''; ?>">
+                    <input type="text" name="content" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Content" value="<?php echo isset($coursecontent) ? $coursecontent : ''; ?>">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Reference Name</label>
@@ -933,48 +475,48 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">FollowUp Details</label>
-                    <textarea name="followupdetails" class="form-control" id="exampleInputPassword1" placeholder="Enter FollowUp Details" value="<?php echo isset($followup) ? $followup : ''; ?>"></textarea>
+                    <textarea name="followup" class="form-control" id="exampleInputPassword1" placeholder="Enter FollowUp Details" value="<?php echo isset($followup) ? $followup : ''; ?>"></textarea>
                   </div>
                 </div>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Parent Contact</label>
-                    <input type="text" name="parentcontact" class="form-control" id="exampleInputEmail1" placeholder="Enter Parent Contact" value="<?php echo isset($parentcontact) ? $parentcontact : ''; ?>">
+                    <input type="text" name="parent" class="form-control" id="exampleInputEmail1" placeholder="Enter Parent Contact" value="<?php echo isset($parent) ? $parent : ''; ?>">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Course Fees</label>
-                    <input type="text" name="coursefees" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Fees" value="<?php echo isset($coursefees) ? $coursefees : ''; ?>">
+                    <input type="text" name="fees" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Fees" value="<?php echo isset($fees) ? $fees : ''; ?>">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Enquiry By</label>
                     <select name="enquiry" id="" class="form-control" id="exampleInputPassword1">
-                      <option value="" hidden>Select Option</option>
-                      <option value="<?php echo($enquiry == 'Harita')? 'selected':''; ?>">Harita Mem</option>
-                      <option value="<?php echo($enquiry == 'Khushi')? 'selected':''; ?>">Khushi Mem</option>
-                      <option value="<?php echo($enquiry == 'Shivangi')? 'selected':''; ?>">Shivangi Mem</option>
-                      <option value="<?php echo($enquiry == 'Krinal')? 'selected':''; ?>">Krinal Mem</option>
-                      <option value="<?php echo($enquiry == 'Shruti')? 'selected':''; ?>">Shruti Mem</option>
-                      <option value="<?php echo($enquiry == 'Haresh')? 'selected':''; ?>">Haresh Sir</option>
-                      <option value="<?php echo($enquiry == 'Prince')? 'selected':''; ?>">Prince Sir</option>
-                      <option value="<?php echo($enquiry == 'Anil')? 'selected':''; ?>">Anil Sir</option>
-                      <option value="<?php echo($enquiry == 'Utsav')? 'selected':''; ?>">Utsav Sir</option>
-                      <option value="<?php echo($enquiry == 'Bhavtik')? 'selected':''; ?>">Bhavtik Sir</option>
-                      <option value="<?php echo($enquiry == 'Vishal')? 'selected':''; ?>">Vishal Sir</option>
-                      <option value="<?php echo($enquiry == 'Gautam')? 'selected':''; ?>">Gautam Sir</option>
-                      <option value="<?php echo($enquiry == 'Shailesh')? 'selected':''; ?>">Shailesh Sir</option>
-                      <option value="<?php echo($enquiry == 'Jatin')? 'selected':''; ?>">Jatin Sir</option>
+                      <option hidden>Select Option</option>
+                      <option <?php echo(@$enquiry == 'Harita Mem') ? 'selected':''; ?>>Harita Mem</option>
+                      <option <?php echo(@$enquiry == 'Khushi Mem') ? 'selected':''; ?>>Khushi Mem</option>
+                      <option <?php echo(@$enquiry == 'Shivangi Mem') ? 'selected':''; ?>>Shivangi Mem</option>
+                      <option <?php echo(@$enquiry == 'Krinal Mem') ? 'selected':''; ?>>Krinal Mem</option>
+                      <option <?php echo(@$enquiry == 'Shruti Mem') ? 'selected':''; ?>>Shruti Mem</option>
+                      <option <?php echo(@$enquiry == 'Haresh Sir') ? 'selected':''; ?>>Haresh Sir</option>
+                      <option <?php echo(@$enquiry == 'Prince Sir') ? 'selected':''; ?>>Prince Sir</option>
+                      <option <?php echo(@$enquiry == 'Anil Sir') ? 'selected':''; ?>>Anil Sir</option>
+                      <option <?php echo(@$enquiry == 'Utsav Sir') ? 'selected':''; ?>>Utsav Sir</option>
+                      <option <?php echo(@$enquiry == 'Bhavtik Sir') ? 'selected':''; ?>>Bhavtik Sir</option>
+                      <option <?php echo(@$enquiry == 'Vishal Sir') ? 'selected':''; ?>>Vishal Sir</option>
+                      <option <?php echo(@$enquiry == 'Gautam Sir') ? 'selected':''; ?>>Gautam Sir</option>
+                      <option <?php echo(@$enquiry == 'Shailesh Sir') ? 'selected':''; ?>>Shailesh Sir</option>
+                      <option <?php echo(@$enquiry == 'Jatin Sir')? 'selected':''; ?>>Jatin Sir</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Batch Time</label>
-                    <select name="batchtime" id="" class="form-control" id="exampleInputPassword1">
-                      <option value="" hidden>Select Option</option>
-                      <option value="<?php echo($batchtime == '8am-10am')? 'selected':''; ?>">8am-10am</option>
-                      <option value="<?php echo($batchtime == '10am-12pm')? 'selected':''; ?>">10am-12pm</option>
-                      <option value="<?php echo($batchtime == '12pm-2pm')? 'selected':''; ?>">12pm-2pm</option>
-                      <option value="<?php echo($batchtime == '2pm-4pm')? 'selected':''; ?>">2pm-4pm</option>
-                      <option value="<?php echo($batchtime == '4pm-6pm')? 'selected':''; ?>">4pm-6pm</option>
-                      <option value="<?php echo($batchtime == '6pm-8pm')? 'selected':''; ?>">6pm-8pm</option>
+                    <select name="betchtime" id="" class="form-control" id="exampleInputPassword1">
+                      <option  hidden>Select Option</option>
+                      <option <?php echo(@$betchtime == '8am-10am') ? 'selected':''; ?>>8am-10am</option>
+                      <option <?php echo(@$betchtime == '10am-12pm') ? 'selected':''; ?>>10am-12pm</option>
+                      <option <?php echo(@$betchtime == '12pm-2pm') ? 'selected':''; ?>>12pm-2pm</option>
+                      <option <?php echo(@$betchtime == '2pm-4pm') ? 'selected':''; ?>>2pm-4pm</option>
+                      <option <?php echo(@$betchtime == '4pm-6pm') ? 'selected':''; ?>>4pm-6pm</option>
+                      <option <?php echo(@$betchtime == '6pm-8pm') ? 'selected':''; ?>>6pm-8pm</option>
                     </select>
                   </div>
                   <div class="form-group">
