@@ -12,55 +12,39 @@
       $row1 = mysqli_fetch_assoc($result1); 
   }
 
-  if(isset($_GET['update']))
-  {
-      $id1 = $_GET['update'];
-      $qry = "SELECT * FROM `followup` WHERE `id`='$id1'";
-      $res = mysqli_query($con , $qry);
-      $row = mysqli_fetch_assoc($res);
-  
-      $name = $row['name'];
-      $contact = $row['contact'];
-      $course = $row['course'];
-      $inquiry = $row['inquiry'];
-      $reson = $row['reson'];
-      $date = $row['date'];
-      $followupby = $row['followupby'];
-  }
-  if(isset($_POST['submit']))
+    if(isset($_GET['delete']))
     {
-        $name = $_POST['name'];
-        $contact = $_POST['contact'];
-        $course = $_POST['course'];
-        $inquiry = $_POST['inquiry'];
-        $reson = $_POST['reson'];
-        $date = $_POST['date'];
-        $followupby = $_POST['followupby'];
-    
-        if(@$_GET['update'])
-        {
-            $qry = "UPDATE `followup` set `name`='$name',`contact`='$contact',`course`,'$course',`inquiry`,'$inquiry',`reson`,'$reson',`date`,'$date',`followupby`,'$followupby' where `id`='$id1'";
-            $result = mysqli_query($con,$qry);
-        }
-        else
-        {
-            $qry = "INSERT INTO `followup`(`name`,`contact`,`course`,`inquiry`,`reson`,`date`,`followupby`) values ('$name','$contact','$course','$inquiry','$reson','$date','$followupby')";
-            $result = mysqli_query($con,$qry);
-        }
+        $id = $_GET['delete'];
+        $qry2 = "UPDATE `admission` set `status`=1 where `id`='$id'";
+        $result2 = mysqli_query($con,$qry2);
     }
 
+    if(isset($_POST['search_btn']))
+    {
+        $search = $_POST['search'];
+        $qry1 = "SELECT * from `admission` where `name` like '%$search%'";
+    }
+    else
+    {
+        $qry1 = "SELECT * from `admission` where `status`=0";
+    }
+    $result1 = mysqli_query($con,$qry1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Form</title>
+  <title>DataTables</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -75,10 +59,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">contact</a>
+        <a href="index.php" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -390,9 +371,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
+            <h1>View Course</h1>
+          </div>
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-              <li class="breadcrumb-item active">FollowUp Form</li>
+              <li class="breadcrumb-item active">View Course</li>
             </ol>
           </div>
         </div>
@@ -403,156 +387,121 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
-          <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Quick Example</h3>
-              </div>
+          <div class="col-12">
+            <div class="card">
               <!-- /.card-header -->
-              <!-- form start -->
-              <form method="post" enctype="multipart/form-data">
-                <div class="card-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Inquiry Name</label>
-                    <?php
-                      if(isset($_GET['followup']))
-                      {
-                        $id = $_GET['followup'];
-                        $q = "SELECT * from `inquiry` where `id`='$id'";
-                        $result = mysqli_query($con,$q);
-                        while($fetch=mysqli_fetch_assoc($result))
-                        {
-                          ?>
-                      <input type="text" class="form-control" id="" placeholder="Enter name" name="name" value="<?php echo $fetch['name'] ?>"<?php echo (@$name == $fetch['name']) ? "selected" : "" ?>>
-                      <?php
-                        }
-                      }
-                      else
-                      {
-                        ?>
-                        <input type="text" name="last_name" class="form-control" value="<?php echo isset($name) ? $name : '';?>">
-                      <?php
-                      }
-                      ?>
-                </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">inquiry contact</label>
-                    <?php
-                    if(isset($_GET['followup']))
-                    {
-                      $id = $_GET['followup'];
-                      $q = "SELECT * from `inquiry` where `id`='$id'";
-                      $result = mysqli_query($con,$q);
-                      while($fetch=mysqli_fetch_assoc($result))
-                      {
-                        ?>
-                      <input type="text" class="form-control" id="" placeholder="Enter contact" name="contact" value="<?php echo $fetch['contact'] ?>"<?php echo (@$contact == $fetch['contact']) ? "selected" : "" ?>>
-                      <?php
-                        }
-                      }
-                      else
-                      {
-                        ?>
-                        <input type="text" name="last_contact" class="form-control" value="<?php echo isset($contact) ? $contact : '';?>">
-                      <?php
-                      }
-                      ?>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Inquiry Course</label>
-                    <?php
-                    if(isset($_GET['followup']))
-                    {
-                      $id = $_GET['followup'];
-                      $q = "SELECT * from `inquiry` where `id`='$id'";
-                      $result = mysqli_query($con,$q);
-                      while($fetch=mysqli_fetch_assoc($result))
-                      {
-                        ?>
-                      <input type="text" class="form-control" id="" placeholder="Enter course" name="course" value="<?php echo $fetch['course'] ?>"<?php echo (@$course == $fetch['course']) ? "selected" : "" ?>>
-                      <?php
-                        }
-                      }
-                      else
-                      {
-                        ?>
-                        <input type="text" name="last_course" class="form-control" value="<?php echo isset($course) ? $course : '';?>">
-                      <?php
-                      }
-                      ?>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Inquiry By</label>
-                    <?php
-                    if(isset($_GET['followup']))
-                    {
-                        $id = $_GET['followup'];
-                        $q = "SELECT * from `inquiry` where `id`='$id'";
-                        $result = mysqli_query($con,$q);
-                        while($fetch=mysqli_fetch_assoc($result))
-                        {
-                      ?>
-                      <input type="text" class="form-control" id="" placeholder="Enter add" name="add" value="<?php echo $fetch['add'] ?>"<?php echo (@$add == $fetch['add']) ? "selected" : "" ?>>
-                      <?php
-                        }
-                      }
-                      else
-                      {
-                      ?>
-                      <input type="text" name="last_inquiry" class="form-control" value="<?php echo isset($inquiry) ? $inquiry : '';?>">
-                      <?php
-                      }
-                      ?>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">FollowUp Reson</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Reson" name ="reson" value="<?php echo isset($reson) ? $reson : ''; ?>">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Expected join Date</label>
-                    <input type="date" class="form-control" id="exampleInputEmail1" placeholder="Enter date" name ="date" value="<?php echo isset($date) ? $date : ''; ?>">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">FollowUp By</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter by" name ="followupby" value="<?php echo isset($followupby) ? $followupby : ''; ?>">
-                  </div>
-                </div>
-                <!-- /.card-body -->
+              <div class="card-body">
+              <form action="" method="post">
+              <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="search" class="form-control float-right" placeholder="Search">
 
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary" name ="submit">Submit</button>
-                </div>
+                    <div class="input-group-append">
+                      <button type="submit" name="search_btn" class="btn btn-default">
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>  
               </form>
+                <table id="example2" class="table table-bordered table-hover">
+                  <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>Contact</td>
+                    <td>Gender</td>
+                    <td>Image</td>
+                    <td>Course</td>
+                    <td>Time</td>
+                    <td>Fees</td>
+                    <td>Date</td>
+                    <td>Delete</td>
+                    <td>Update</td>
+                  </tr>
+                    
+                    <?php
+                      while($fetch = mysqli_fetch_assoc($result1))
+                      {
+                    ?>
+                    <tr>
+                      <td><?php echo $fetch['id'] ?></td>
+                      <td><?php echo $fetch['name'] ?></td>
+                      <td><?php echo $fetch['email'] ?></td>
+                      <td><?php echo $fetch['contact'] ?></td>
+                      <td><?php echo $fetch['gender'] ?></td>
+                      <td>
+                          <img src="image/<?php echo $fetch['image']?>" alt="" width="100px" height="100px">
+                        </td>
+                    <td><?php echo $fetch['course'] ?></td>
+                    <td><?php echo $fetch['time'] ?></td>
+                    <td><?php echo $fetch['fees'] ?></td>
+                    <td><?php echo $fetch['date'] ?></td>
+                      <td align=center><a href="viewadmission.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
+                      <td align=center><a href="admission.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                      </tr>
+                    <?php
+                      }
+                    ?>
+                   
+                </table>
+              </div>
+              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
+          <!-- /.col -->
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
   </aside>
+  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- bs-custom-file-input -->
-<script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="plugins/jszip/jszip.min.js"></script>
+<script src="plugins/pdfmake/pdfmake.min.js"></script>
+<script src="plugins/pdfmake/vfs_fonts.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-$(function () {
-  bsCustomFileInput.init();
-});
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
 </script>
 </body>
 </html>

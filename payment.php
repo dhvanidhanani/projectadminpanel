@@ -15,36 +15,34 @@
   if(isset($_GET['update']))
   {
       $id1 = $_GET['update'];
-      $qry = "SELECT * FROM `followup` WHERE `id`='$id1'";
+      $qry = "SELECT * FROM `reson` WHERE `id`='$id1'";
       $res = mysqli_query($con , $qry);
       $row = mysqli_fetch_assoc($res);
   
       $name = $row['name'];
       $contact = $row['contact'];
       $course = $row['course'];
-      $inquiry = $row['inquiry'];
-      $reson = $row['reson'];
       $date = $row['date'];
       $followupby = $row['followupby'];
+      $reson = $row['reson'];
   }
   if(isset($_POST['submit']))
     {
         $name = $_POST['name'];
         $contact = $_POST['contact'];
         $course = $_POST['course'];
-        $inquiry = $_POST['inquiry'];
-        $reson = $_POST['reson'];
         $date = $_POST['date'];
         $followupby = $_POST['followupby'];
+        $reson = $_POST['reson'];
     
         if(@$_GET['update'])
         {
-            $qry = "UPDATE `followup` set `name`='$name',`contact`='$contact',`course`,'$course',`inquiry`,'$inquiry',`reson`,'$reson',`date`,'$date',`followupby`,'$followupby' where `id`='$id1'";
+            $qry = "UPDATE `reson` set `name`='$name',`contact`='$contact',`course`,'$course',`date`,'$date',`followupby`,'$followupby',`reson`,'$reson' where `id`='$id1'";
             $result = mysqli_query($con,$qry);
         }
         else
         {
-            $qry = "INSERT INTO `followup`(`name`,`contact`,`course`,`inquiry`,`reson`,`date`,`followupby`) values ('$name','$contact','$course','$inquiry','$reson','$date','$followupby')";
+            $qry = "INSERT INTO `reson`(`name`,`contact`,`course`,`date`,`followupby`,`reson`) values ('$name','$contact','$course','$date','$followupby','$reson')";
             $result = mysqli_query($con,$qry);
         }
     }
@@ -417,10 +415,10 @@
                 <div class="form-group">
                     <label for="exampleInputEmail1">Inquiry Name</label>
                     <?php
-                      if(isset($_GET['followup']))
+                      if(isset($_GET['reson']))
                       {
-                        $id = $_GET['followup'];
-                        $q = "SELECT * from `inquiry` where `id`='$id'";
+                        $id = $_GET['reson'];
+                        $q = "SELECT * from `followup` where `id`='$id'";
                         $result = mysqli_query($con,$q);
                         while($fetch=mysqli_fetch_assoc($result))
                         {
@@ -436,14 +434,14 @@
                       <?php
                       }
                       ?>
-                </div>
+                    </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">inquiry contact</label>
                     <?php
-                    if(isset($_GET['followup']))
+                    if(isset($_GET['reson']))
                     {
-                      $id = $_GET['followup'];
-                      $q = "SELECT * from `inquiry` where `id`='$id'";
+                      $id = $_GET['reson'];
+                      $q = "SELECT * from `followup` where `id`='$id'";
                       $result = mysqli_query($con,$q);
                       while($fetch=mysqli_fetch_assoc($result))
                       {
@@ -463,10 +461,10 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">Inquiry Course</label>
                     <?php
-                    if(isset($_GET['followup']))
+                    if(isset($_GET['reson']))
                     {
-                      $id = $_GET['followup'];
-                      $q = "SELECT * from `inquiry` where `id`='$id'";
+                      $id = $_GET['reson'];
+                      $q = "SELECT * from `followup` where `id`='$id'";
                       $result = mysqli_query($con,$q);
                       while($fetch=mysqli_fetch_assoc($result))
                       {
@@ -484,40 +482,55 @@
                       ?>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Inquiry By</label>
+                    <label for="exampleInputEmail1">Expected Payment Date</label>
                     <?php
-                    if(isset($_GET['followup']))
+                    if(isset($_GET['reson']))
                     {
-                        $id = $_GET['followup'];
-                        $q = "SELECT * from `inquiry` where `id`='$id'";
-                        $result = mysqli_query($con,$q);
-                        while($fetch=mysqli_fetch_assoc($result))
-                        {
-                      ?>
-                      <input type="text" class="form-control" id="" placeholder="Enter add" name="add" value="<?php echo $fetch['add'] ?>"<?php echo (@$add == $fetch['add']) ? "selected" : "" ?>>
+                      $id = $_GET['reson'];
+                      $q = "SELECT * from `followup` where `id`='$id'";
+                      $result = mysqli_query($con,$q);
+                      while($fetch=mysqli_fetch_assoc($result))
+                      {
+                        ?>
+                      <input type="text" class="form-control" id="" placeholder="Enter date" name="date" value="<?php echo $fetch['date'] ?>"<?php echo (@$date == $fetch['date']) ? "selected" : "" ?>>
                       <?php
                         }
                       }
                       else
                       {
-                      ?>
-                      <input type="text" name="last_inquiry" class="form-control" value="<?php echo isset($inquiry) ? $inquiry : '';?>">
+                        ?>
+                        <input type="text" name="last_date" class="form-control" value="<?php echo isset($date) ? $date : '';?>">
                       <?php
                       }
                       ?>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">FollowUp Reson</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Reson" name ="reson" value="<?php echo isset($reson) ? $reson : ''; ?>">
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Expected join Date</label>
-                    <input type="date" class="form-control" id="exampleInputEmail1" placeholder="Enter date" name ="date" value="<?php echo isset($date) ? $date : ''; ?>">
-                  </div>
-                  <div class="form-group">
                     <label for="exampleInputEmail1">FollowUp By</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter by" name ="followupby" value="<?php echo isset($followupby) ? $followupby : ''; ?>">
+                    <?php
+                    if(isset($_GET['reson']))
+                    {
+                      $id = $_GET['reson'];
+                      $q = "SELECT * from `followup` where `id`='$id'";
+                      $result = mysqli_query($con,$q);
+                      while($fetch=mysqli_fetch_assoc($result))
+                      {
+                        ?>
+                      <input type="text" class="form-control" id="" placeholder="Enter by" name="followupby" value="<?php echo $fetch['followupby'] ?>"<?php echo (@$followupby == $fetch['followupby']) ? "selected" : "" ?>>
+                      <?php
+                        }
+                      }
+                      else
+                      {
+                        ?>
+                        <input type="text" name="last_followupby" class="form-control" value="<?php echo isset($followupby) ? $followupby : '';?>">
+                      <?php
+                      }
+                      ?>
                   </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">FollowUp Reson</label>
+                      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Reson" name ="reson" value="<?php echo isset($reson) ? $reson : ''; ?>">
+                    </div>
                 </div>
                 <!-- /.card-body -->
 

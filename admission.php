@@ -11,44 +11,55 @@
       $result1 = mysqli_query($con,$qry1);
       $row1 = mysqli_fetch_assoc($result1); 
   }
+  
   if(isset($_GET['update']))
   {
-      $id = $_GET['update'];
-      $qry = "SELECT * FROM `course` WHERE `id`='$id'";
-      $res = mysqli_query($con , $qry);
-      $row = mysqli_fetch_assoc($res);
-  
-      $name = $row['name'];
-      $image = $row['image'];
-      $link = $row['link'];
-      $title = $row['title'];
+    $id = $_GET['update'];
+    $qry = "SELECT * from `admission` where `id`='$id'";
+    $result = mysqli_query($con,$qry);
+    $res = mysqli_fetch_assoc($result);
+    $name = $res['name'];
+    $email = $res['email'];
+    $contact = $res['contact'];
+    $gender = $res['gender'];
+    $image = $res['image'];
+    $course = $res['course'];
+    $time = $res['time'];
+    $fees = $res['fees'];
+    $date = $res['date'];
   }
   if(isset($_POST['submit']))
+  {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $contact = $_POST['contact'];
+    $gender = $_POST['gender'];
+    if($_FILES['image']['name']!= '')
     {
-        $name = $_POST['name'];
-        if($_FILES['image']['name']!= '')
-        {
-            $image = $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'],"image/".$image);
-        }
-        else
-        {
-            $image = $_POST['last_image'];
-        }
-        $link = $_POST['link'];
-        $title = $_POST['title'];
-
-        if(@$_GET['update'])
-        {
-            $qry = "UPDATE `course` set `name`='$name',`image`='$image',`link`='$link',`title`='$title' where `id`='$id'";
-            $result = mysqli_query($con,$qry);
-        }
-        else
-        {
-            $qry = "INSERT INTO `course`(`name`,`image`,`link`,`title`) values ('$name','$image','$link','$title')";
-            $result = mysqli_query($con,$qry);
-        }
+        $image = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'],"image/".$image);
     }
+    else
+    {
+        $image = $_POST['last_image'];
+    }
+    $course = $_POST['course'];
+    $time = $_POST['time'];
+    $fees = $_POST['fees'];
+    $date = $_POST['date'];
+
+    if(@$_GET['update'])
+    {
+      $qry = "UPDATE `admission` set `name`='$name',`email`='$email',`contact`='$contact',`gender`='$gender',`image`='$image',`course`='$course',`time`='$time',`fees`='$fees',`date`='$date' where `id`='$id'";
+      $result = mysqli_query($con,$qry);
+    }
+    else
+    {
+      $qry = "INSERT into `admission` (`name`,`email`,`contact`,`gender`,`image`,`course`,`time`,`fees`,`date`) values ('$name','$email','$contact','$gender','$image','$course','$time','$fees','$date')";
+      $result = mysqli_query($con,$qry);
+    }
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +89,7 @@
         <a href="index3.html" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="#" class="nav-link">contact</a>
       </li>
     </ul>
 
@@ -242,7 +253,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="index.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -352,9 +363,26 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="viewadmission.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Admission</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Payment
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="viewreson.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Viewpayment</p>
                 </a>
               </li>
             </ul>
@@ -403,10 +431,24 @@
                     <input type="text" class="form-control" id="" placeholder="Enter name" name="name" value="<?php echo isset($name) ? $name : ''; ?>">
                 </div>
                 <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="" placeholder="Enter Email" name="email"value="<?php echo isset($email) ? $email : ''; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">contact</label>
+                    <input type="text" class="form-control" id="" placeholder="Enter contact" name="contact"value="<?php echo isset($contact) ? $contact : ''; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Gender &nbsp;&nbsp;&nbsp;</label>
+                    <input type="radio" id="" value="Male" <?php echo (@$gender == 'Male') ? 'checked' : ''; ?> name="gender">&nbsp;&nbsp;Male&nbsp;&nbsp;
+                    <input type="radio" id="" value="Female" <?php echo (@$gender == 'Female') ? 'checked' : ''; ?> name="gender">&nbsp;&nbsp;Female
+                </div>
+
+                <div class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image" value="<?php echo isset($image) ? $image : ''; ?>">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image" value="<?php echo isset($image)? $image : '';?>">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                       <div class="input-group-append">
@@ -415,16 +457,28 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Link</label>
-                    <input type="" class="form-control" id="exampleInputEmail1" placeholder="Enter Link" name ="link" value="<?php echo isset($link) ? $link : ''; ?>">
+                    <label for="exampleInputEmail1">Course</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Course" name ="course" value="<?php echo isset($course) ? $course : ''; ?>">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Title</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter title" name ="title" value="<?php echo isset($title) ? $title : ''; ?>">
+                    <label for="exampleInputPassword1">Batch Time</label>
+                    <select name="time" id="" class="form-control" id="exampleInputPassword1">
+                      <option  hidden>Select Option</option>
+                      <option <?php echo(@$time == '8am-10am') ? 'selected':''; ?>>8am-10am</option>
+                      <option <?php echo(@$time == '10am-12pm') ? 'selected':''; ?>>10am-12pm</option>
+                      <option <?php echo(@$time == '12pm-2pm') ? 'selected':''; ?>>12pm-2pm</option>
+                      <option <?php echo(@$time == '2pm-4pm') ? 'selected':''; ?>>2pm-4pm</option>
+                      <option <?php echo(@$time == '4pm-6pm') ? 'selected':''; ?>>4pm-6pm</option>
+                      <option <?php echo(@$time == '6pm-8pm') ? 'selected':''; ?>>6pm-8pm</option>
+                    </select>
                   </div>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Fees</label>
+                    <input type="text" name="fees" class="form-control" id="exampleInputPassword1" placeholder="Enter Course Fees" value="<?php echo isset($fees) ? $fees : ''; ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Expected Join Date</label>
+                    <input type="date" name="date" class="form-control" id="exampleInputPassword1" placeholder="date" value="<?php echo isset($date) ? $date : ''; ?>">
                   </div>
                 </div>
                 <!-- /.card-body -->

@@ -11,7 +11,7 @@
       $result1 = mysqli_query($con,$qry1);
       $row1 = mysqli_fetch_assoc($result1); 
   }
-
+  
     if(isset($_GET['delete']))
     {
         $id = $_GET['delete'];
@@ -28,7 +28,10 @@
     {
         $qry1 = "SELECT * from `inquiry` where `status_id`=0";
     }
-    $result1 = mysqli_query($con,$qry1);
+    $result = mysqli_query($con,$qry1); 
+    $current = date("y-m-d");
+    $query = "SELECT * FROM `inquiry` WHERE `date` = '$current'";
+    $result = mysqli_query($con, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -223,7 +226,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="index.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -333,9 +336,26 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="viewadmission.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Admission</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Payment
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="viewreson.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Viewpayment</p>
                 </a>
               </li>
             </ul>
@@ -411,7 +431,8 @@
                   </tr>
                     
                     <?php
-                      while($fetch = mysqli_fetch_assoc($result1))
+                      
+                      while($fetch = mysqli_fetch_assoc($result))
                       {
                     ?>
                     <tr>

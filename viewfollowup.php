@@ -29,6 +29,9 @@
         $qry1 = "SELECT * from `followup` where `status`=0";
     }
     $result1 = mysqli_query($con,$qry1);
+    $current = date("y-m-d");
+    $query = "SELECT * FROM `followup` WHERE `date` = '$current'";
+    $result = mysqli_query($con, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -223,7 +226,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="index.php" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -333,9 +336,26 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="viewadmission.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>View Admission</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tree"></i>
+              <p>
+                Payment
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="viewreson.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Viewpayment</p>
                 </a>
               </li>
             </ul>
@@ -395,14 +415,15 @@
                     <td>Course</td>
                     <td>inquiry</td>
                     <td>Reson</td>
-                    <td>Date</td>
+                    <td>Payment Date</td>
                     <td>Followup By</td>
                     <td>Delete</td>
                     <td>Update</td>
+                    <td>Add</td>
                   </tr>
                     
                     <?php
-                      while($fetch = mysqli_fetch_assoc($result1))
+                      while($fetch = mysqli_fetch_assoc($result))
                       {
                     ?>
                     <tr>
@@ -418,6 +439,7 @@
                       
                       <td align=center><a href="viewfollowup.php?delete=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-trash"></i></a></td>
                       <td align=center><a href="followup.php?update=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                      <td align=center><a href="payment.php?reson=<?php echo $fetch['id'] ?>"><i class="fa-solid fa-plus"></i></a></td>
                       </tr>
                     <?php
                       }
