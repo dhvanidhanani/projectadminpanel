@@ -1,4 +1,5 @@
 <?php
+echo "hii";
   $con = mysqli_connect("localhost","root","","project1");
   session_start();
   $userid = $_SESSION['data'];
